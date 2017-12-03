@@ -1,4 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StatusBar } from 'react-native';
 
-export default () => <View />;
+import { Container } from '../components/Container';
+import { Logo } from '../components/Logo';
+
+export default () => (
+  <Container>
+    <StatusBar translucent={false} barStyle="light-content" />
+    <Logo />
+  </Container>
+);
