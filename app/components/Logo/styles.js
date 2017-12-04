@@ -10,11 +10,11 @@ export default EStyleSheet.create({
   containerImage: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: imageWidth,
-    height: imageWidth,
+    width: imageWidth * 0.7,
+    height: imageWidth * 0.7,
   },
   image: {
-    width: imageWidth / 2,
+    width: imageWidth * 0.4,
   },
   text: {
     fontWeight: '600',
