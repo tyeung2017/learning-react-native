@@ -29,6 +29,7 @@ class Home extends Component {
           defaultValue={TEMP_BASE_PRICE}
           keyboardType="numeric"
           onChangeText={this.handleTextChange}
+          returnKeyType="done"
         />
         <InputWithButton
           buttonText={TEMP_QUOTE_CURRENCY}
