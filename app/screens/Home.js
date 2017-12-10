@@ -32,31 +32,31 @@ class Home extends Component {
         <Header onPress={this.handleOptionPress} />
         <StatusBar translucent={false} barStyle="light-content" />
         <KeyboardAvoidingView behavior="padding" >
-        <Logo />
-        <InputWithButton
-          buttonText={TEMP_BASE_CURRENCY}
-          onPress={this.handlePressBaseCurrency}
-          defaultValue={TEMP_BASE_PRICE}
-          keyboardType="numeric"
-          onChangeText={this.handleTextChange}
-          returnKeyType="done"
-        />
-        <InputWithButton
-          buttonText={TEMP_QUOTE_CURRENCY}
-          onPress={this.handlePressQuoteCurrency}
-          editable={false}
-          value={TEMP_QUOTE_PRICE}
-        />
-        <LastConverted
-          base={TEMP_BASE_CURRENCY}
-          quote={TEMP_QUOTE_CURRENCY}
-          date={TEMP_CONVERSION_DATE} 
-          conversionRate={TEMP_CONVERSION_RATE}
-        />
-        <ClearButton
-          text="Reverse Currency"
-          onPress={this.handleSwapCurrency}
-        />
+          <Logo />
+          <InputWithButton
+            buttonText={TEMP_BASE_CURRENCY}
+            onPress={this.handlePressBaseCurrency}
+            defaultValue={TEMP_BASE_PRICE}
+            keyboardType="numeric"
+            onChangeText={this.handleTextChange}
+            returnKeyType="done"
+          />
+          <InputWithButton
+            buttonText={TEMP_QUOTE_CURRENCY}
+            onPress={this.handlePressQuoteCurrency}
+            editable={false}
+            value={TEMP_QUOTE_PRICE}
+          />
+          <LastConverted
+            base={TEMP_BASE_CURRENCY}
+            quote={TEMP_QUOTE_CURRENCY}
+            date={TEMP_CONVERSION_DATE}
+            conversionRate={TEMP_CONVERSION_RATE}
+          />
+          <ClearButton
+            text="Reverse Currency"
+            onPress={this.handleSwapCurrency}
+          />
         </KeyboardAvoidingView>
       </Container>
     );
