@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { View, Image, ImageBackground, Text, Keyboard, Animated } from 'react-native';
+import { View, Text, Keyboard, Animated, StyleSheet, Platform } from 'react-native';
 import styles from './styles';
 
+const ANIMATION_DURATION = 250;
+
 class Logo extends Component {
+  state = {
+    containerImageWidth: new Animated.Value(styles.$largeContainerSize),
+    imageWidth: new Animated.Value(styles.$largeImageSize),
+  }
+
   componentDidMount() {
-    this.keyboardShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardShow);
-    this.keyboardHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardHide);
+    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
+    this.keyboardShowListener = Keyboard.addListener(`keyboard${name}Show`, this.keyboardShow);
+    this.keyboardHideListener = Keyboard.addListener(`keyboard${name}Hide`, this.keyboardHide);
   }
 
   componentWillUnmount() {
@@ -13,16 +21,42 @@ class Logo extends Component {
     this.keyboardHideListener.remove();
   }
 
-  keyboardShow = () => {console.log('keyboard show')}
+  keyboardShow = () => {
+    Animated.parallel([
+      Animated.timing(this.state.containerImageWidth, {
+        toValue: styles.$smallContainerSize,
+        duration: ANIMATION_DURATION,
+      }),
+      Animated.timing(this.state.imageWidth, {
+        toValue: styles.$smallImageSize,
+        duration: ANIMATION_DURATION,
+      }),
+    ]).start();
+  }
 
-  keyboardHide = () => {console.log('keyboard hide')}
+  keyboardHide = () => {
+    Animated.parallel([
+      Animated.timing(this.state.containerImageWidth, {
+        toValue: styles.$largeContainerSize,
+        duration: ANIMATION_DURATION,
+      }),
+      Animated.timing(this.state.imageWidth, {
+        toValue: styles.$largeImageSize,
+        duration: ANIMATION_DURATION,
+      }),
+    ]).start();
+  }
 
   render() {
+    const containerImageStyles = [styles.containerImage,
+      { width: this.state.containerImageWidth, height: this.state.containerImageWidth }];
+    const imageStyles = [styles.logo, { width: this.state.imageWidth }];
     return (
       <View style={styles.container}>
-        <ImageBackground style={styles.containerImage} resizeMode="contain" source={require('./images/background.png')}>
-          <Image resizeMode="contain" style={styles.image} source={require('./images/logo.png')} />
-        </ImageBackground>
+        <Animated.View style={containerImageStyles} >
+          <Animated.Image style={[StyleSheet.absoluteFill, containerImageStyles]} resizeMode="contain" source={require('./images/background.png')} />
+          <Animated.Image resizeMode="contain" style={imageStyles} source={require('./images/logo.png')} />
+        </Animated.View>
         <Text style={styles.text} >Currency Converter</Text>
       </View>
     );
