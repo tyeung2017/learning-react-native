@@ -1,13 +1,14 @@
 import React from 'react';
-import { Text, FlatList, View, StatusBar } from 'react-native';
+import PropTypes from 'prop-types';
+import { FlatList, View, StatusBar } from 'react-native';
 import { ListItem, Separator } from '../components/List';
 
 import currencies from '../data/currencies';
 
 const TEMP_CURRENT_CURRENCY = 'CAD';
 
-const CurrencyList = () => {
-  const handlePress = () => alert('list item pressed');
+const CurrencyList = ({navigation}) => {
+  const handlePress = () => navigation.goBack(null);
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" translucent={false} />
@@ -25,5 +26,9 @@ const CurrencyList = () => {
     </View>
   );
 };
+
+CurrencyList.propTypes = {
+  navigation: PropTypes.object,
+}
 
 export default CurrencyList;
