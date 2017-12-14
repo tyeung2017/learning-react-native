@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ScrollView, StatusBar, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,9 +9,9 @@ const ICON_COLOR = '#868686';
 const ICON_SIZE = 23;
 const ICON_PREFIX = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const Options = () => {
+const Options = ({ navigation }) => {
   const handleSitePress = () => alert('site pressed');
-  const handleThemePress = () => alert('theme pressed');
+  const handleThemePress = () => navigation.navigate('Themes');
 
   return (
     <ScrollView>
@@ -30,5 +31,9 @@ const Options = () => {
     </ScrollView>
   );
 };
+
+Options.propTypes = {
+  navigation: PropTypes.object,
+}
 
 export default Options;

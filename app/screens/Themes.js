@@ -1,18 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ScrollView, StatusBar } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { ListItem, Separator } from '../components/List';
 
 const styles = EStyleSheet.create({
-    $blue: '$primaryBlue',
-    $orange: '$primaryOrange',
-    $green: '$primaryGreen',
-    $purple: '$primaryPurple',
+  $blue: '$primaryBlue',
+  $orange: '$primaryOrange',
+  $green: '$primaryGreen',
+  $purple: '$primaryPurple',
 });
 
-const Themes = () => {
-  const handleThemePress = () => alert('theme pressed');
+const Themes = ({ navigation }) => {
+  const handleThemePress = () => navigation.goBack();
   return (
     <ScrollView >
       <StatusBar barStyle="default" translucent={false} />
@@ -51,5 +52,9 @@ const Themes = () => {
     </ScrollView>
   );
 };
+
+Themes.propTypes = { 
+  navigation: PropTypes.object,
+}
 
 export default Themes;
