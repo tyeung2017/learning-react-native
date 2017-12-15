@@ -4,14 +4,15 @@ import { ScrollView, StatusBar, Platform, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { ListItem, Separator } from '../components/List';
+import { connectAlert } from '../components/Alert';
 
 const ICON_COLOR = '#868686';
 const ICON_SIZE = 23;
 const ICON_PREFIX = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const Options = ({ navigation }) => {
+const Options = ({ navigation, alertWithType }) => {
   const handleSitePress = () => Linking.openURL('http://fixer.io')
-                                 .catch(() => alert('error occurred'));
+                                 .catch(() => alertWithType('error', 'Sorry!', 'Sth is wrong with Fixer.io'));
   const handleThemePress = () => navigation.navigate('Themes');
 
   return (
@@ -35,6 +36,7 @@ const Options = ({ navigation }) => {
 
 Options.propTypes = {
   navigation: PropTypes.object,
+  alertWithType: PropTypes.func,
 }
 
-export default Options;
+export default connectAlert(Options);
