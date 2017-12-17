@@ -12,17 +12,16 @@ import { Header } from '../components/Header';
 
 import { swapCurrency, changeCurrencyAmount } from '../actions/currencies';
 
-const TEMP_BASE_PRICE = '100';
-const TEMP_QUOTE_PRICE = '79.74';
-const TEMP_CONVERSION_RATE = 0.7974;
-const TEMP_CONVERSION_DATE = new Date();
-
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     dispatch: PropTypes.func,
     baseCurrency: PropTypes.string,
     quoteCurrency: PropTypes.string,
+    amount: PropTypes.number,
+    rates: PropTypes.number,
+    isFetching: PropTypes.bool,
+    lastConvertedDate: PropTypes.object,
   }
 
   handlePressBaseCurrency = () => this.props.navigation.navigate('CurrencyList', { title: 'Base Currency' });
@@ -36,6 +35,9 @@ class Home extends Component {
   handleOptionPress = () => this.props.navigation.navigate('Options');
 
   render() {
+    let quotePrice = (this.props.rates * this.props.amount).toFixed(2);
+    if (this.props.isFetching) { quotePrice = '...'; }
+
     return (
       <Container>
         <Header onPress={this.handleOptionPress} />
@@ -45,7 +47,7 @@ class Home extends Component {
           <InputWithButton
             buttonText={this.props.baseCurrency}
             onPress={this.handlePressBaseCurrency}
-            defaultValue={TEMP_BASE_PRICE}
+            defaultValue={this.props.amount.toString()}
             keyboardType="numeric"
             onChangeText={this.handleTextChange}
             returnKeyType="done"
@@ -54,13 +56,13 @@ class Home extends Component {
             buttonText={this.props.quoteCurrency}
             onPress={this.handlePressQuoteCurrency}
             editable={false}
-            value={TEMP_QUOTE_PRICE}
+            value={quotePrice}
           />
           <LastConverted
             base={this.props.baseCurrency}
             quote={this.props.quoteCurrency}
-            date={TEMP_CONVERSION_DATE}
-            conversionRate={TEMP_CONVERSION_RATE}
+            date={this.props.lastConvertedDate}
+            conversionRate={this.props.rates}
           />
           <ClearButton
             text="Reverse Currency"
@@ -72,13 +74,22 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const baseCurrency = state.currencies.baseCurrency;
-  const quoteCurrency = state.currencies.quoteCurrency;
+const mapStateToProps = ({
+  currencies: {
+    baseCurrency, quoteCurrency, amount, conversions,
+  },
+}) => {
+  const conversionSelector = conversions[baseCurrency] || {};
+  const { date, isFetching, rates } = conversionSelector;
+  const lastConvertedDate = date ? new Date(date) : new Date();
 
   return {
     baseCurrency,
     quoteCurrency,
+    amount,
+    rates: rates[quoteCurrency] || 0,
+    isFetching,
+    lastConvertedDate,
   };
 };
 
