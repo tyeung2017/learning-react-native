@@ -24,9 +24,9 @@ class Home extends Component {
     lastConvertedDate: PropTypes.object,
   }
 
-  handlePressBaseCurrency = () => this.props.navigation.navigate('CurrencyList', { title: 'Base Currency' });
+  handlePressBaseCurrency = () => this.props.navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base' });
 
-  handlePressQuoteCurrency = () => this.props.navigation.navigate('CurrencyList', { title: 'Quote Currency' });
+  handlePressQuoteCurrency = () => this.props.navigation.navigate('CurrencyList', { title: 'Quote Currency', type: 'quote' });
 
   handleTextChange = text => this.props.dispatch(changeCurrencyAmount(text));
 
@@ -81,13 +81,14 @@ const mapStateToProps = ({
 }) => {
   const conversionSelector = conversions[baseCurrency] || {};
   const { date, isFetching, rates } = conversionSelector;
+  const exRate = rates || {};
   const lastConvertedDate = date ? new Date(date) : new Date();
 
   return {
     baseCurrency,
     quoteCurrency,
     amount,
-    rates: rates[quoteCurrency] || 0,
+    rates: exRate[quoteCurrency] || 0,
     isFetching,
     lastConvertedDate,
   };
