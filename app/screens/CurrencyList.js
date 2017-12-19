@@ -7,9 +7,7 @@ import { changeBaseCurrency, changeQuoteCurrency } from '../actions/currencies';
 
 import currencies from '../data/currencies';
 
-const TEMP_CURRENT_CURRENCY = 'CAD';
-
-const CurrencyList = ({ navigation, dispatch }) => {
+const CurrencyList = ({ navigation, dispatch, baseCurrency, quoteCurrency }) => {
   const handlePress = (currency) => {
     const { type } = navigation.state.params;
     if (type === 'base') {
@@ -20,6 +18,12 @@ const CurrencyList = ({ navigation, dispatch }) => {
     navigation.goBack(null);
   };
 
+  let comparisonCurrencies = baseCurrency;
+
+  if (navigation.state.params.type === 'quote') {
+    comparisonCurrencies = quoteCurrency;
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" translucent={false} />
@@ -28,7 +32,7 @@ const CurrencyList = ({ navigation, dispatch }) => {
         renderItem={({ item }) =>
         (<ListItem
           text={item}
-          selected={item === TEMP_CURRENT_CURRENCY}
+          selected={item === comparisonCurrencies}
           onPress={handlePress.bind(null, item)}
         />)}
         keyExtractor={item => item}
@@ -41,6 +45,13 @@ const CurrencyList = ({ navigation, dispatch }) => {
 CurrencyList.propTypes = {
   navigation: PropTypes.object,
   dispatch: PropTypes.func,
+  baseCurrency: PropTypes.string,
+  quoteCurrency: PropTypes.string,
 };
 
-export default connect()(CurrencyList);
+const mapStateToProps = state => ({
+  baseCurrency: state.currencies.baseCurrency,
+  quoteCurrency: state.currencies.quoteCurrency,
+});
+
+export default connect(mapStateToProps)(CurrencyList);
