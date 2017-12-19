@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, StatusBar } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
 
 import { ListItem, Separator } from '../components/List';
+import { changePrimaryColor } from '../actions/theme';
 
 const styles = EStyleSheet.create({
   $blue: '$primaryBlue',
@@ -12,15 +14,19 @@ const styles = EStyleSheet.create({
   $purple: '$primaryPurple',
 });
 
-const Themes = ({ navigation }) => {
-  const handleThemePress = () => navigation.goBack();
+const Themes = ({ navigation, dispatch }) => {
+  const handleThemePress = (color) => {
+    dispatch(changePrimaryColor(color));
+    navigation.goBack();
+  };
+
   return (
     <ScrollView >
       <StatusBar barStyle="default" translucent={false} />
       <ListItem
         text="Blue"
         selected
-        onPress={handleThemePress}
+        onPress={handleThemePress.bind(null, styles.$blue)}
         checkmark={false}
         iconBackground={styles.$blue}
       />
@@ -28,7 +34,7 @@ const Themes = ({ navigation }) => {
       <ListItem
         text="Orange"
         selected
-        onPress={handleThemePress}
+        onPress={handleThemePress.bind(null, styles.$orange)}
         checkmark={false}
         iconBackground={styles.$orange}
       />
@@ -36,7 +42,7 @@ const Themes = ({ navigation }) => {
       <ListItem
         text="Green"
         selected
-        onPress={handleThemePress}
+        onPress={handleThemePress.bind(null, styles.$green)}
         checkmark={false}
         iconBackground={styles.$green}
       />
@@ -44,7 +50,7 @@ const Themes = ({ navigation }) => {
       <ListItem
         text="Purple"
         selected
-        onPress={handleThemePress}
+        onPress={handleThemePress.bind(null, styles.$purple)}
         checkmark={false}
         iconBackground={styles.$purple}
       />
@@ -53,8 +59,9 @@ const Themes = ({ navigation }) => {
   );
 };
 
-Themes.propTypes = { 
+Themes.propTypes = {
   navigation: PropTypes.object,
-}
+  dispatch: PropTypes.func,
+};
 
-export default Themes;
+export default connect()(Themes);
