@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, Keyboard, Animated, StyleSheet, Platform } from 'react-native';
 import styles from './styles';
 
 const ANIMATION_DURATION = 250;
 
 class Logo extends Component {
+  static propTypes = {
+    tintColor: PropTypes.string,
+  };
+
   state = {
     containerImageWidth: new Animated.Value(styles.$largeContainerSize),
     imageWidth: new Animated.Value(styles.$largeImageSize),
@@ -50,7 +55,8 @@ class Logo extends Component {
   render() {
     const containerImageStyles = [styles.containerImage,
       { width: this.state.containerImageWidth, height: this.state.containerImageWidth }];
-    const imageStyles = [styles.logo, { width: this.state.imageWidth }];
+    const imageStyles = [styles.logo, { width: this.state.imageWidth },
+      this.props.tintColor ? { tintColor: this.props.tintColor } : null];
     return (
       <View style={styles.container}>
         <Animated.View style={containerImageStyles} >

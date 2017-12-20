@@ -7,7 +7,9 @@ import { changeBaseCurrency, changeQuoteCurrency } from '../actions/currencies';
 
 import currencies from '../data/currencies';
 
-const CurrencyList = ({ navigation, dispatch, baseCurrency, quoteCurrency }) => {
+const CurrencyList = ({
+  navigation, dispatch, baseCurrency, quoteCurrency, primaryColor,
+}) => {
   const handlePress = (currency) => {
     const { type } = navigation.state.params;
     if (type === 'base') {
@@ -34,6 +36,7 @@ const CurrencyList = ({ navigation, dispatch, baseCurrency, quoteCurrency }) => 
           text={item}
           selected={item === comparisonCurrencies}
           onPress={handlePress.bind(null, item)}
+          iconBackground={primaryColor}
         />)}
         keyExtractor={item => item}
         ItemSeparatorComponent={Separator}
@@ -47,11 +50,13 @@ CurrencyList.propTypes = {
   dispatch: PropTypes.func,
   baseCurrency: PropTypes.string,
   quoteCurrency: PropTypes.string,
+  primaryColor: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   baseCurrency: state.currencies.baseCurrency,
   quoteCurrency: state.currencies.quoteCurrency,
+  primaryColor: state.theme.primaryColor,
 });
 
 export default connect(mapStateToProps)(CurrencyList);
