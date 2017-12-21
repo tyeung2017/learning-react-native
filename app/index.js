@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
+import { addNavigationHelpers } from 'react-navigation';
 
 import store from './config/store';
 import Routes from './config/routes';
@@ -19,10 +21,31 @@ EStyleSheet.build({
   $darkText: '#343434',
 });
 
+const App = ({ dispatch, nav }) => (
+  <Routes
+    navigation={
+      addNavigationHelpers({
+        dispatch,
+        state: nav,
+      })}
+  />
+);
+
+const mapStateToProps = state => ({
+  nav: state.nav,
+});
+
+const AppWithNav = connect(mapStateToProps)(App);
+
+App.propTypes = {
+  dispatch: PropTypes.func,
+  nav: PropTypes.object,
+};
+
 export default () => (
   <Provider store={store}>
     <AlertProvider>
-      <Routes onNavigationStateChange={null} />
+      <AppWithNav />
     </AlertProvider>
   </Provider>
 );
