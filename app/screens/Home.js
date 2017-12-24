@@ -27,6 +27,8 @@ class Home extends Component {
     primaryColor: PropTypes.string,
     alertWithType: PropTypes.func,
     currencyError: PropTypes.string,
+    connected: PropTypes.bool,
+    onWarning: PropTypes.func,
   }
 
   componentWillMount() {
@@ -43,6 +45,9 @@ class Home extends Component {
   componentWillUnmount() {
     NetInfo.removeEventListener('connectionChange', this.handleNetworkChange);
   }
+
+
+  onWarning = () => this.props.alertWithType('warn', 'No Network', 'Some functions will not work');
 
   handleNetworkChange = info => this.props.dispatch(changeNetworkStatus(info));
 
@@ -62,7 +67,11 @@ class Home extends Component {
 
     return (
       <Container backgroundColor={this.props.primaryColor} >
-        <Header onPress={this.handleOptionPress} />
+        <Header
+          onPress={this.handleOptionPress}
+          onWarning={this.onWarning}
+          connected={this.props.connected}
+        />
         <StatusBar translucent={false} barStyle="light-content" />
         <KeyboardAvoidingView behavior="padding" >
           <Logo tintColor={this.props.primaryColor} />
@@ -103,6 +112,7 @@ const mapStateToProps = ({
     baseCurrency, quoteCurrency, amount, conversions, error,
   },
   theme: { primaryColor },
+  network: { connected },
 }) => {
   const conversionSelector = conversions[baseCurrency] || {};
   const { date, isFetching, rates } = conversionSelector;
@@ -118,6 +128,7 @@ const mapStateToProps = ({
     lastConvertedDate,
     primaryColor,
     currencyError: error,
+    connected,
   };
 };
 
