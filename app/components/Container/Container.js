@@ -16,7 +16,7 @@ const Container = ({ children, backgroundColor }) => {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 Container.propTypes = {
   children: PropTypes.any,

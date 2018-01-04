@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot of test changeCurrencyAmount 1`] = `
+Object {
+  "amount": 1000,
+  "type": "CHANGE_CURRENCY_AMOUNT",
+}
+`;
+
+exports[`snapshot of test changeCurrencyAmount 2`] = `
+Object {
+  "amount": 1000,
+  "type": "CHANGE_CURRENCY_AMOUNT",
+}
+`;
+
+exports[`snapshot of test getInitialCopnversion 1`] = `
+Object {
+  "type": "GET_INITIAL_CONVERSION",
+}
+`;

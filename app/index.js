@@ -1,25 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { Provider, connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 
 import store from './config/store';
 import Routes from './config/routes';
 import { AlertProvider } from './components/Alert';
+import buildStyles from './config/styles';
 
-EStyleSheet.build({
-  $primaryBlue: '#4F6D7A',
-  $primaryOrange: '#D57A66',
-  $primaryGreen: '#00BD9D',
-  $primaryPurple: '#9E768F',
-
-  $white: '#FFFFFF',
-  $border: '#E2E2E2',
-  $inputText: '#797979',
-  $lightGray: '#F0F0F0',
-  $darkText: '#343434',
-});
+buildStyles();
 
 const App = ({ dispatch, nav }) => (
   <Routes
