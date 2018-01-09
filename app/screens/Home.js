@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StatusBar, KeyboardAvoidingView, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Container } from '../components/Container';
+import Container from '../components/Container';
 import { connectAlert } from '../components/Alert';
 import { Logo } from '../components/Logo';
 import { InputWithButton } from '../components/TextInput';
